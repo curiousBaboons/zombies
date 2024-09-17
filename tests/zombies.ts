@@ -137,8 +137,12 @@ describe("zombies", () => {
     const selection = 2;
     const zombie_id = 0;
     
-    await battle(newUser, armyPDA, zombie_id, selection, dna1, dna2, dna3);
+    const battlePDA = await battle(newUser, armyPDA, zombie_id, selection, dna1, dna2, dna3);
+    let battleData = await program.account.battle.fetch(battlePDA);
 
+    assert(Object.keys(battleData.outcome).includes('won'));
+
+    // check if zombie was added to army
     let army_data = await program.account.army.fetch(armyPDA);
     
     // assert that first zombie dna is greater then 0

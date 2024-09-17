@@ -3,7 +3,7 @@ use crate::constants::MAX_CARDS;
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone)]
 #[derive(PartialEq)]
-#[derive(Default)]
+#[derive(Default, InitSpace)]
 pub enum BattleOutcome {
     #[default]
     Won,
@@ -12,7 +12,7 @@ pub enum BattleOutcome {
 
 
 #[account]
-#[derive(Default)]
+#[derive(Default, InitSpace)]
 pub struct Battle {
     pub owner: Pubkey,
     pub zombie_id: u8,

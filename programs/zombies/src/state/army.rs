@@ -5,7 +5,7 @@ use crate::state::Zombie;
 
 
 #[account]
-#[derive(Default)]
+#[derive(Default, InitSpace)]
 pub struct Army {
     pub owner: Pubkey,
     pub zombies: [Zombie; MAX_ZOMBIES],

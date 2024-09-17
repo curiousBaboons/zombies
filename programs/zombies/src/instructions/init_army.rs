@@ -1,6 +1,5 @@
 use anchor_lang::prelude::*;
 use crate::state::{Army, Zombie};
-use crate::constants::MAX_ZOMBIES;
 
 pub fn init_army(ctx: Context<InitArmy>) -> Result<()> {
     let army = &mut ctx.accounts.army;
@@ -17,7 +16,7 @@ pub struct InitArmy<'info>{
     #[account(
         init, 
         payer = owner, 
-        space = 8 + 32 + (32 + 8 + 1) * MAX_ZOMBIES, // Adjusted space calculation
+        space = 8 + Army::INIT_SPACE,
         seeds = [b"army".as_ref(), owner.key().as_ref()],
         bump
     )]

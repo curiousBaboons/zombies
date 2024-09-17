@@ -2,7 +2,7 @@ use anchor_lang::prelude::*;
 use anchor_lang::solana_program::hash::{hash, Hash};
 
 
-#[derive(AnchorSerialize, AnchorDeserialize, Clone, Default)]
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, Default, InitSpace)]
 pub struct Zombie {
     pub dna: u64,
     pub last_fight: i64,

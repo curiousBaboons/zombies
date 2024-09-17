@@ -1,6 +1,5 @@
 use anchor_lang::prelude::*;
 use crate::state::{Army, Zombie, Battle, BattleOutcome};
-use crate::constants::MAX_CARDS;
 use crate::errors::GameErrorCode;
 
 pub fn battle(ctx: Context<InitBattle>, zombie_id: u8, selection: u8, dna1: u64, dna2: u64, dna3: u64) -> Result<()> {
@@ -43,7 +42,7 @@ pub struct InitBattle<'info>{
     #[account(
         init,
         payer = owner,
-        space = 8 + 32 + 1 + (8 * MAX_CARDS as usize) + 1 + 1, // Adjusted space calculation
+        space = 8 + Battle::INIT_SPACE,
         seeds = [
             owner.key().as_ref(),
             dna1.to_le_bytes().as_ref(), 
