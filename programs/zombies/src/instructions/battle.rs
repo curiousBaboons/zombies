@@ -1,4 +1,6 @@
 use anchor_lang::prelude::*;
+use session_keys::{SessionToken, Session};
+
 use crate::state::{Army, Zombie, Battle, BattleOutcome};
 use crate::errors::GameErrorCode;
 
@@ -36,25 +38,43 @@ pub fn battle(ctx: Context<InitBattle>, zombie_id: u8, selection: u8, dna1: u64,
     Ok(())
 }
 
-#[derive(Accounts)]
+#[derive(Accounts, Session)]
 #[instruction(zombie_id: u8, selection: u8, dna1: u64, dna2: u64, dna3: u64)]
 pub struct InitBattle<'info>{
+    #[session(
+        signer = signer,
+        // The authority of the user account which must have created the session
+        authority = owner.key()
+    )]
+    // Session Tokens are passed as optional accounts
+    pub session_token: Option<Account<'info, SessionToken>>,    
+    
     #[account(
         init,
-        payer = owner,
+        payer = signer,
         space = 8 + Battle::INIT_SPACE,
         seeds = [
-            owner.key().as_ref(),
+            army.owner.key().as_ref(),
             dna1.to_le_bytes().as_ref(), 
             dna2.to_le_bytes().as_ref(), 
             dna3.to_le_bytes().as_ref()
         ],
-        bump,
+        bump
     )]
-    pub battle: Account<'info, Battle>,
-    #[account(mut, has_one = owner)]
-    pub army: Account<'info, Army>,
+    pub battle: Account<'info, Battle>,    
+    
+    #[account(
+        mut,
+        has_one = owner
+    )]
+    pub army: Account<'info, Army>,    
+    
+    /// CHECK: This is the actual owner, not necessarily the signer
+    pub owner: UncheckedAccount<'info>,
+    
     #[account(mut)]
-    pub owner: Signer<'info>,
+    pub signer: Signer<'info>,
+    
     pub system_program: Program<'info, System>,
 }
+

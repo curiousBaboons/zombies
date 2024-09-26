@@ -34,4 +34,6 @@ pub enum GameErrorCode {
 
     #[msg("You have reach your army limit")]
     NoEmptySlot,
+
+
 }

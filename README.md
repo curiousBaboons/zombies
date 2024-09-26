@@ -33,3 +33,16 @@ This is a Solana-based blockchain game where players can create and manage their
 - Uses DNA-based zombie creation and battle resolution.
 
 This game combines strategic army management with chance-based battles, creating an engaging blockchain gaming experience on the Solana network.
+
+
+## Testing
+
+Start solana validator with Session Keys program loaded
+```
+solana-test-validator -r --bpf-program KeyspM2ssCJbqUhQ4k7sveSiY4WjnYsrXkC8oDbwde5 ./session-keys.so  --account KeyspM2ssCJbqUhQ4k7sveSiY4WjnYsrXkC8oDbwde5 ./sessionTokensAccount.json
+```
+
+run anchor test on the validator
+```
+anchor test --skip-local-validator
+```

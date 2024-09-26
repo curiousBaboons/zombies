@@ -1,6 +1,7 @@
 use anchor_lang::prelude::*;
 use crate::constants::MAX_CARDS;
 
+
 #[derive(AnchorSerialize, AnchorDeserialize, Clone)]
 #[derive(PartialEq)]
 #[derive(Default, InitSpace)]
